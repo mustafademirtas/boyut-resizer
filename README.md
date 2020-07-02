@@ -1,7 +1,9 @@
 <div align="center">
     <img src="resources/icons/128x128.png" width="auto" />
 </div>
+
 ## Boyut Resizer
+
 <hr />
 <p>
 Boyut Resizer based on React, React Router, Webpack, React Hot Loader for rapid application development
