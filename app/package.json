@@ -1,0 +1,21 @@
+{
+  "name": "boyut-resizer",
+  "productName": "Boyut Resizer",
+  "version": "1.0.0",
+  "description": "Boyut Resizer based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "Mustafa Demirtaş",
+    "email": "mustafademirtas@gmail.com",
+    "url": "https://mustafademirtas.me"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ../internals/scripts/BabelRegister.js ../internals/scripts/ElectronRebuild.js",
+    "postinstall": "yarn electron-rebuild"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "archiver": "^4.0.1",
+    "sharp": "^0.25.4"
+  }
+}
