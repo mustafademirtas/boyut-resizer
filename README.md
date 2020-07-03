@@ -4,10 +4,11 @@
 
 ## Boyut Resizer
 
-<hr />
 <p>
-Boyut Resizer based on React, React Router, Webpack, React Hot Loader for rapid application development
+Boyut Resizer is an image resizer application which based on React, React Router, Webpack, React Hot Loader.
 </p>
+
+#### Screenshot
 
 <div align="center">
     <img src="internals/screenshots/Screenshot01.png" width="100%" />
@@ -36,5 +37,8 @@ To package apps for the local platform:
 yarn package
 ```
 
-License
+## Contribution
+Feel free to contribute. Open a new [issue](https://github.com/ozgrozer/electron-image-resizer/issues), or make a [pull request](https://github.com/ozgrozer/electron-image-resizer/pulls).
+
+## License
 MIT © Boyut Resizer
