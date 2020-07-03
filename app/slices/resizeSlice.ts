@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 // eslint-disable-next-line import/no-cycle
 import { AppThunk, RootState } from '../store';
+import checkDigit from '../utils/checkDigit';
 
 type SliceState = {
   width: string;
@@ -9,10 +10,6 @@ type SliceState = {
   fit: string;
   backgroundFillColor: string;
   allowFillColor: boolean;
-};
-
-const checkDigit = (val: string) => {
-  return /^\d*\.?\d*$/.test(val);
 };
 
 const resizeSlice = createSlice({

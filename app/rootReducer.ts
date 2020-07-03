@@ -7,6 +7,7 @@ import counterReducer from './features/counter/counterSlice';
 import fileListReducer from './features/fileList/fileListSlice';
 import resizeReducer from './slices/resizeSlice';
 import loadingReducer from './slices/loadingSlice';
+import multipleResizeSlice from './slices/multipleResizeSlice';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -15,5 +16,6 @@ export default function createRootReducer(history: History) {
     fileList: fileListReducer,
     resize: resizeReducer,
     loading: loadingReducer,
+    multipleResize: multipleResizeSlice,
   });
 }

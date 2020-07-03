@@ -8,6 +8,7 @@ import { ipcRenderer } from 'electron';
 import { selectResize } from '../../slices/resizeSlice';
 import { ISelectedFile } from '../../interfaces/ISelectedFiles';
 import { imageFileTypes } from '../../utils/config';
+import { show } from '../../slices/loadingSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,7 +25,7 @@ interface Props {}
 const MultiSizeDropContainer: React.FC<Props> = ({ children }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { quality } = useSelector(selectResize);
+  // const { quality } = useSelector(selectResize);
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -42,21 +43,23 @@ const MultiSizeDropContainer: React.FC<Props> = ({ children }) => {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    // const { files } = e.dataTransfer;
-    // let data: ISelectedFile[] = [];
-    // const validFiles = [...(files as any)].filter((f: any) =>
-    //   includes(imageFileTypes, f.type)
-    // );
+    const { files } = e.dataTransfer;
+    let data: ISelectedFile[] = [];
+    const validFiles = [...(files as any)].filter((f: any) =>
+      includes(imageFileTypes, f.type)
+    );
 
-    // data = validFiles.map((x: any) => {
-    //   return { path: x.path, name: x.name };
-    // });
+    data = validFiles.map((x: any) => {
+      return { path: x.path, name: x.name };
+    });
 
-    // ipcRenderer.send('select-file', data);
+    dispatch(show());
+    ipcRenderer.send('select-file-single', data[0]);
   };
 
   return (
     <Grid
+      id="containerViewer"
       item
       xs={8}
       sm={8}

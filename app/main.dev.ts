@@ -24,6 +24,7 @@ import { imageFileExtensions } from './utils/config';
 import AspectRatio from './utils/aspectRatio';
 import { IResizeInput } from './interfaces/IResizeInput';
 import randomZipFileName from './utils/randomZipFileName';
+import { IMultipleSizeResizeInput } from './interfaces/IMultipleSizeResizeInput';
 
 const fs = require('fs');
 
@@ -188,6 +189,30 @@ ipcMain.on(
   }
 );
 
+ipcMain.on(
+  'select-file-single',
+  async (event: Electron.IpcMainEvent, arg: ISelectedFile) => {
+    let filePath = '';
+    if (!arg) {
+      const { filePaths, canceled } = await dialog.showOpenDialog(mainWindow!, {
+        properties: ['openFile'],
+        filters: [{ name: 'Images', extensions: imageFileExtensions }],
+      });
+
+      if (canceled) {
+        return;
+      }
+      // eslint-disable-next-line prefer-destructuring
+      filePath = filePaths[0];
+    } else {
+      filePath = arg.path;
+    }
+    const imageInfo = await ImageInfoExtractor(filePath);
+
+    mainWindow?.webContents.send('file-read-single', imageInfo);
+  }
+);
+
 ipcMain.on('resize-request', async (event, arg: IResizeInput) => {
   const destinationFile = `${arg.destinationPath}/${randomZipFileName()}.zip`;
   const output = fs.createWriteStream(destinationFile);
@@ -278,3 +303,80 @@ ipcMain.on('resize-request', async (event, arg: IResizeInput) => {
   shell.showItemInFolder(destinationFile);
   mainWindow?.webContents.send('resize-done');
 });
+
+ipcMain.on(
+  'resize-request-multi-size',
+  async (event, arg: IMultipleSizeResizeInput) => {
+    console.log('PAZU', arg);
+    const destinationFile = `${arg.destinationPath}/${randomZipFileName()}.zip`;
+    const output = fs.createWriteStream(destinationFile);
+    const archive = archiver('zip', {
+      zlib: { level: 9 }, // Sets the compression level.
+    });
+
+    // listen for all archive data to be written
+    // 'close' event is fired only when a file descriptor is involved
+    output.on('close', () => {
+      console.log(`${archive.pointer()} total bytes`);
+      console.log(
+        'archiver has been finalized and the output file descriptor has closed.'
+      );
+    });
+
+    // This event is fired when the data source is drained no matter what was the data source.
+    // It is not part of this library but rather from the NodeJS Stream API.
+    // @see: https://nodejs.org/api/stream.html#stream_event_end
+    output.on('end', () => {
+      console.log('Data has been drained');
+    });
+
+    // good practice to catch this error explicitly
+    archive.on('error', (err: any) => {
+      throw err;
+    });
+
+    // good practice to catch warnings (ie stat failures and other non-blocking errors)
+    archive.on('warning', (err: any) => {
+      if (err.code === 'ENOENT') {
+        // log warning
+      } else {
+        // throw error
+        throw err;
+      }
+    });
+
+    // pipe archive data to the file
+    archive.pipe(output);
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const iterator of arg.sizes) {
+      const opts: sharp.ResizeOptions = {};
+
+      if (iterator.width) {
+        opts.width = parseInt(iterator.width, 10);
+      }
+      if (iterator.height) {
+        opts.height = parseInt(iterator.height, 10);
+      }
+
+      // Start Pipe
+      const pipe = sharp(arg.file.path);
+
+      // Resize
+      pipe.resize(opts);
+
+      // To buffer
+      // eslint-disable-next-line no-await-in-loop
+      const buffer = await pipe.toBuffer();
+
+      archive.append(buffer, {
+        // name: `${iterator.name}.${iterator.meta.format}`,
+        name: `${iterator.width}x${iterator.height}-${arg.file.name}`,
+      });
+    }
+
+    await archive.finalize();
+    shell.showItemInFolder(arg.destinationPath);
+    mainWindow?.webContents.send('resize-done');
+  }
+);

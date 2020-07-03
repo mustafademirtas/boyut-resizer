@@ -2,9 +2,17 @@ import React from 'react';
 import { Box, Button } from '@material-ui/core';
 import Lottie, { Options } from 'react-lottie';
 import { ipcRenderer } from 'electron';
+import { useSelector, useDispatch } from 'react-redux';
 import * as animationData from './5364-drag-drop-upload.json';
+import { show } from '../../slices/loadingSlice';
 
-export default function FileList() {
+interface Props {
+  mode?: 'single' | 'multiple';
+}
+
+// eslint-disable-next-line react/prop-types
+const FileList: React.FC<Props> = ({ mode }) => {
+  const dispatch = useDispatch();
   const defaultOptions: Options = {
     loop: true,
     autoplay: true,
@@ -42,18 +50,28 @@ export default function FileList() {
           color="primary.main"
           style={{ paddingBottom: 3 }}
         >
-          Drop files here or
+          {mode === 'multiple' && 'Drop files here or'}
+          {mode === 'single' && 'Drop file here or'}
         </Box>
         <Button
           size="medium"
           color="secondary"
           onClick={() => {
-            ipcRenderer.send('select-file', null);
+            dispatch(show());
+            if (mode === 'multiple') {
+              ipcRenderer.send('select-file', null);
+            } else {
+              ipcRenderer.send('select-file-single', null);
+            }
           }}
         >
-          Select Files
+          {mode === 'multiple' && 'Select Files'}
+          {mode === 'single' && 'Select File'}
         </Button>
       </Box>
     </Box>
   );
-}
+};
+
+FileList.defaultProps = { mode: 'multiple' };
+export default FileList;

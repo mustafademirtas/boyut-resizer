@@ -13,9 +13,10 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
 
 import { IImageInfo } from '../interfaces/IImageInfo';
+
+import Toast from '../utils/toast';
 
 import FileList from '../features/fileList/FileList';
 import DropTeaser from '../features/dropTeaser/DropTeaser';
@@ -45,18 +46,6 @@ function isInteger(value: string): boolean {
   }
   return true;
 }
-
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  // onOpen: (toast) => {
-  //   toast.addEventListener('mouseenter', Swal.stopTimer);
-  //   toast.addEventListener('mouseleave', Swal.resumeTimer);
-  // },
-});
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
