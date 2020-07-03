@@ -8,6 +8,7 @@ import fileListReducer from './features/fileList/fileListSlice';
 import resizeReducer from './slices/resizeSlice';
 import loadingReducer from './slices/loadingSlice';
 import multipleResizeSlice from './slices/multipleResizeSlice';
+import aboutModalSlice from './slices/aboutModalSlice';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -17,5 +18,6 @@ export default function createRootReducer(history: History) {
     resize: resizeReducer,
     loading: loadingReducer,
     multipleResize: multipleResizeSlice,
+    aboutModal: aboutModalSlice,
   });
 }

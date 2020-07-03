@@ -380,3 +380,7 @@ ipcMain.on(
     mainWindow?.webContents.send('resize-done');
   }
 );
+
+ipcMain.on('app_version', (event) => {
+  event.sender.send('app_version', { version: app.getVersion() });
+});

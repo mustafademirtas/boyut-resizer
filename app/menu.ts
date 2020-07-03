@@ -90,12 +90,18 @@ export default class MenuBuilder {
       label: 'Boyut',
       submenu: [
         {
+          label: 'About',
+          click: () => {
+            this.mainWindow.webContents.send('show-about');
+          },
+        },
+        { type: 'separator' },
+        {
           label: 'Batch Resize',
           click: () => {
             this.mainWindow.webContents.send('navigate', routes.HOME);
           },
         },
-        { type: 'separator' },
         {
           label: 'Multi Resize',
           click: () => {

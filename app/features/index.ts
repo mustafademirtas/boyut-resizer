@@ -5,3 +5,4 @@ export { default as ImageViewer } from './imageViewer/ImageViewer';
 export { default as SizeListInput } from './sizeListInput/SizeListInput';
 export { default as MultiSizeDropContainer } from './multiSizeDropContainer/MultiSizeDropContainer';
 export { default as DropTeaser } from './dropTeaser/DropTeaser';
+export { default as AboutModal } from './aboutModal/AboutModal';
