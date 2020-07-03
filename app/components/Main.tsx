@@ -35,7 +35,7 @@ import { selectResize } from '../slices/resizeSlice';
 import { IResizeInput } from '../interfaces/IResizeInput';
 
 import { LoadingComponent } from '../features';
-// import routes from '../constants/routes.json';
+import routes from '../constants/routes.json';
 
 function isInteger(value: string): boolean {
   const parsed = parseInt(value, 10);
@@ -89,7 +89,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const boxMargin = 1;
 
-export default function Main(): JSX.Element {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Props {}
+
+const Main: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const fileList = useSelector(selectFileList);
   const resizeOpts = useSelector(selectResize);
@@ -251,4 +254,6 @@ export default function Main(): JSX.Element {
       <LoadingComponent />
     </Container>
   );
-}
+};
+
+export default Main;

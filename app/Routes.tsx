@@ -31,9 +31,8 @@ export default function Routes() {
   return (
     <App>
       <Switch>
-        {/* <Route path={routes.COUNTER} component={CounterPage} /> */}
-        <Route path={routes.HOME} component={HomePage} />
         <Route path={routes.MULTIPLESIZE} component={MultipleSizePage} />
+        <Route path={routes.HOME} component={HomePage} />
       </Switch>
     </App>
   );

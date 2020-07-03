@@ -5,6 +5,7 @@ import {
   BrowserWindow,
   MenuItemConstructorOptions,
 } from 'electron';
+import routes from './constants/routes.json';
 
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
   selector?: string;
@@ -84,6 +85,26 @@ export default class MenuBuilder {
         },
       ],
     };
+
+    const subMenuBoyut: DarwinMenuItemConstructorOptions = {
+      label: 'Boyut',
+      submenu: [
+        {
+          label: 'Batch Resize',
+          click: () => {
+            this.mainWindow.webContents.send('navigate', routes.HOME);
+          },
+        },
+        { type: 'separator' },
+        {
+          label: 'Multi Resize',
+          click: () => {
+            this.mainWindow.webContents.send('navigate', routes.MULTIPLESIZE);
+          },
+        },
+      ],
+    };
+
     const subMenuEdit: DarwinMenuItemConstructorOptions = {
       label: 'Edit',
       submenu: [
@@ -189,7 +210,14 @@ export default class MenuBuilder {
         ? subMenuViewDev
         : subMenuViewProd;
 
-    return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp];
+    return [
+      subMenuAbout,
+      subMenuBoyut,
+      subMenuEdit,
+      subMenuView,
+      subMenuWindow,
+      subMenuHelp,
+    ];
   }
 
   buildDefaultTemplate() {
