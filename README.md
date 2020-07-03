@@ -8,6 +8,10 @@
 Boyut Resizer is an image resizer application which based on React, React Router, Webpack, React Hot Loader.
 </p>
 
+[![GitHub issues](https://img.shields.io/github/issues/mustafademirtas/boyut-resizer)](https://github.com/mustafademirtas/boyut-resizer/issues)
+[![tag](https://img.shields.io/github/tag/mustafademirtas/boyut-resizer)](https://github.com/mustafademirtas/boyut-resizer/tags)
+[![GitHub license](https://img.shields.io/github/license/mustafademirtas/boyut-resizer)](https://github.com/mustafademirtas/boyut-resizer/blob/master/LICENSE)
+
 #### Screenshot
 
 <div align="center">
