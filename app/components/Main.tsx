@@ -10,11 +10,9 @@ import {
   Typography,
   Grid,
   Divider,
-  Snackbar,
   Tooltip,
 } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import Swal from 'sweetalert2';
 
 import { IImageInfo } from '../interfaces/IImageInfo';
@@ -25,23 +23,19 @@ import ResizeDimensionInput from '../features/resizeDimensionInput/ResizeDimensi
 import ResizeFitInput from '../features/resizeFitInput/ResizeFitInput';
 import ResizeQualityInput from '../features/resizeQualityInput/ResizeQualityInput';
 import DropContainer from '../features/dropContainer/DropContainer';
+import ResizeFillBackgroundInput from '../features/resizeFillBackgroundInput/resizeFillBackgroundInput';
 
 import {
   setFileInfos,
   selectFileList,
 } from '../features/fileList/fileListSlice';
-
+import { show, hide, selectLoading } from '../slices/loadingSlice';
 import { selectResize } from '../slices/resizeSlice';
+
 import { IResizeInput } from '../interfaces/IResizeInput';
-import ResizeFillBackgroundInput from '../features/resizeFillBackgroundInput/resizeFillBackgroundInput';
 
-import styles from './Main.css';
+import { LoadingComponent } from '../features';
 // import routes from '../constants/routes.json';
-
-function Alert(props: AlertProps) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 function isInteger(value: string): boolean {
   const parsed = parseInt(value, 10);
@@ -79,11 +73,6 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: 0,
       paddingRight: 0,
     },
-    // settingsRoot: {
-    //   backgroundColor: '#f5f5f5',
-    //   height: '100%',
-    //   overflowY: 'scroll',
-    // },
     textField: {
       width: '100%',
     },
@@ -106,24 +95,16 @@ export default function Main(): JSX.Element {
   const resizeOpts = useSelector(selectResize);
   const classes = useStyles();
 
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const [snackbarMessage, setSnackbarMessage] = React.useState('');
-
   const handleFileRead = (
     event: Electron.IpcRendererEvent,
     message: IImageInfo[]
   ) => {
     dispatch(setFileInfos(message));
+    dispatch(hide());
   };
 
-  const handleSnackbarClose = (
-    event?: React.SyntheticEvent,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpenSnackbar(false);
+  const handleResizeDone = () => {
+    dispatch(hide());
   };
 
   const validateResizeInputs = () => {
@@ -189,8 +170,12 @@ export default function Main(): JSX.Element {
 
   React.useEffect(() => {
     ipcRenderer.on('file-read', handleFileRead);
+    ipcRenderer.on('resize-done', handleResizeDone);
+
     return () => {
+      dispatch(hide());
       ipcRenderer.removeListener('file-read', handleFileRead);
+      ipcRenderer.removeListener('resize-done', handleResizeDone);
     };
   }, []);
 
@@ -216,6 +201,7 @@ export default function Main(): JSX.Element {
               fullWidth
               size="small"
               onClick={async () => {
+                dispatch(show());
                 const result = await prepareResizeOptions();
                 if (result) ipcRenderer.send('resize-request', result);
               }}
@@ -262,15 +248,7 @@ export default function Main(): JSX.Element {
           </Box>
         </Grid>
       </Grid>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-      >
-        <Alert onClose={handleSnackbarClose} severity="success">
-          This is a success message!
-        </Alert>
-      </Snackbar>
+      <LoadingComponent />
     </Container>
   );
 }

@@ -15,6 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { removeFileInfo } from './fileListSlice';
 
 import { IImageInfo } from '../../interfaces/IImageInfo';
+import formatBytes from '../../utils/formatBytes';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,7 +65,7 @@ export default function FileList({ data }: Props) {
               <FolderIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={x.name} secondary={x.size} />
+          <ListItemText primary={x.name} secondary={formatBytes(x.size)} />
           <ListItemSecondaryAction>
             <IconButton
               edge="end"

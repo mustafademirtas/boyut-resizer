@@ -6,6 +6,7 @@ import { History } from 'history';
 import counterReducer from './features/counter/counterSlice';
 import fileListReducer from './features/fileList/fileListSlice';
 import resizeReducer from './slices/resizeSlice';
+import loadingReducer from './slices/loadingSlice';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -13,5 +14,6 @@ export default function createRootReducer(history: History) {
     counter: counterReducer,
     fileList: fileListReducer,
     resize: resizeReducer,
+    loading: loadingReducer,
   });
 }

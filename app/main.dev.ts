@@ -276,4 +276,5 @@ ipcMain.on('resize-request', async (event, arg: IResizeInput) => {
 
   await archive.finalize();
   shell.showItemInFolder(destinationFile);
+  mainWindow?.webContents.send('resize-done');
 });
