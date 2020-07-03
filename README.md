@@ -38,7 +38,7 @@ yarn package
 ```
 
 ## Contribution
-Feel free to contribute. Open a new [issue](https://github.com/ozgrozer/electron-image-resizer/issues), or make a [pull request](https://github.com/ozgrozer/electron-image-resizer/pulls).
+Feel free to contribute. Open a new [issue](https://github.com/mustafademirtas/boyut-resizer/issues), or make a [pull request](https://github.com/mustafademirtas/boyut-resizer/pulls).
 
 ## License
 MIT © Boyut Resizer
