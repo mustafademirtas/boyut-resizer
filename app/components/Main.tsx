@@ -1,6 +1,5 @@
 import React from 'react';
 import { ipcRenderer, remote } from 'electron';
-import { Link } from 'react-router-dom';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import {
@@ -18,24 +17,27 @@ import { IImageInfo } from '../interfaces/IImageInfo';
 
 import Toast from '../utils/toast';
 
-import FileList from '../features/fileList/FileList';
-import DropTeaser from '../features/dropTeaser/DropTeaser';
-import ResizeDimensionInput from '../features/resizeDimensionInput/ResizeDimensionInput';
-import ResizeFitInput from '../features/resizeFitInput/ResizeFitInput';
-import ResizeQualityInput from '../features/resizeQualityInput/ResizeQualityInput';
-import DropContainer from '../features/dropContainer/DropContainer';
-import ResizeFillBackgroundInput from '../features/resizeFillBackgroundInput/resizeFillBackgroundInput';
+import {
+  LoadingComponent,
+  ResizeOtherOptionsInput,
+  FileList,
+  DropTeaser,
+  ResizeDimensionInput,
+  ResizeFitInput,
+  ResizeQualityInput,
+  DropContainer,
+  ResizeFillBackgroundInput,
+} from '../features';
 
 import {
   setFileInfos,
   selectFileList,
 } from '../features/fileList/fileListSlice';
-import { show, hide, selectLoading } from '../slices/loadingSlice';
+import { show, hide } from '../slices/loadingSlice';
 import { selectResize } from '../slices/resizeSlice';
 
 import { IResizeInput } from '../interfaces/IResizeInput';
 
-import { LoadingComponent } from '../features';
 import routes from '../constants/routes.json';
 
 function isInteger(value: string): boolean {
@@ -90,23 +92,25 @@ const Main: React.FC<Props> = () => {
   const handleFileRead = (
     event: Electron.IpcRendererEvent,
     message: IImageInfo[]
-  ) => {
+  ): void => {
     dispatch(setFileInfos(message));
     dispatch(hide());
   };
 
-  const handleResizeDone = () => {
+  const handleResizeDone = (): void => {
     dispatch(hide());
   };
 
-  const validateResizeInputs = () => {
+  const validateResizeInputs = (): boolean => {
+    if (resizeOpts.dontResize) return true;
+
     const isWidthNumber = isInteger(resizeOpts.width);
     const isHeightNumber = isInteger(resizeOpts.height);
 
     return isWidthNumber || isHeightNumber;
   };
 
-  const validateResizeElementExist = () => {
+  const validateResizeElementExist = (): boolean => {
     if (fileList.length <= 0) {
       return false;
     }
@@ -156,6 +160,8 @@ const Main: React.FC<Props> = () => {
       quality: resizeOpts.quality,
       backgroundFillColor: resizeOpts.backgroundFillColor,
       allowFillColor: resizeOpts.allowFillColor,
+      dontResize: resizeOpts.dontResize,
+      removeExifData: resizeOpts.removeExifData,
     };
     return message;
   };
@@ -237,6 +243,15 @@ const Main: React.FC<Props> = () => {
           </Typography>
           <Box m={boxMargin}>
             <ResizeFillBackgroundInput />
+          </Box>
+          <Divider />
+          <Typography component="div" gutterBottom>
+            <Box fontSize="1rem" m={boxMargin} color="primary.main">
+              Other Options
+            </Box>
+          </Typography>
+          <Box m={boxMargin}>
+            <ResizeOtherOptionsInput />
           </Box>
         </Grid>
       </Grid>

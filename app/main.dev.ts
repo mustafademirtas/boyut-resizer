@@ -270,6 +270,10 @@ ipcMain.on('resize-request', async (event, arg: IResizeInput) => {
     // Start Pipe
     const pipe = sharp(iterator.path);
 
+    if (!arg.removeExifData) {
+      pipe.withMetadata();
+    }
+
     // If format jpeg add quality
     if (iterator.meta.format === 'jpeg') {
       pipe.jpeg({ quality: arg.quality });
@@ -280,7 +284,7 @@ ipcMain.on('resize-request', async (event, arg: IResizeInput) => {
     }
 
     if (iterator.meta.format === 'png') {
-      pipe.png({ quality: arg.quality });
+      // pipe.png({ quality: arg.quality });
       if (arg.allowFillColor) {
         pipe.flatten({ background: arg.backgroundFillColor });
       }

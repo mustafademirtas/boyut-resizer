@@ -9,4 +9,6 @@ export interface IResizeInput {
   quality: number;
   backgroundFillColor: string;
   allowFillColor: boolean;
+  dontResize: boolean;
+  removeExifData: boolean;
 }

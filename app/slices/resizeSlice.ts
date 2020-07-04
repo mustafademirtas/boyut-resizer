@@ -10,6 +10,8 @@ type SliceState = {
   fit: string;
   backgroundFillColor: string;
   allowFillColor: boolean;
+  dontResize: boolean;
+  removeExifData: boolean;
 };
 
 const resizeSlice = createSlice({
@@ -21,6 +23,8 @@ const resizeSlice = createSlice({
     quality: 80,
     backgroundFillColor: '#fff',
     allowFillColor: false,
+    dontResize: false,
+    removeExifData: false,
   } as SliceState,
   reducers: {
     setAllowFillColor: (state, action) => {
@@ -45,6 +49,12 @@ const resizeSlice = createSlice({
     setBackgroundFillColor: (state, action) => {
       state.backgroundFillColor = action.payload;
     },
+    setDontResize: (state, action) => {
+      state.dontResize = action.payload;
+    },
+    setRemoveExifData: (state, action) => {
+      state.removeExifData = action.payload;
+    },
   },
 });
 
@@ -55,6 +65,8 @@ export const {
   setWidth,
   setBackgroundFillColor,
   setAllowFillColor,
+  setDontResize,
+  setRemoveExifData,
 } = resizeSlice.actions;
 
 // export const incrementIfOdd = (): AppThunk => {

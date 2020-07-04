@@ -1,9 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-import { selectResize, setHeight, setWidth } from '../../slices/resizeSlice';
+import {
+  selectResize,
+  setHeight,
+  setWidth,
+  setDontResize,
+} from '../../slices/resizeSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,7 +24,7 @@ interface Props {}
 const ResizeDimensionInput: React.FC<Props> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { width, height } = useSelector(selectResize);
+  const { width, height, dontResize } = useSelector(selectResize);
 
   const checkMaxLength = (val: string) => {
     return val.length <= 4;
@@ -35,6 +40,17 @@ const ResizeDimensionInput: React.FC<Props> = () => {
     dispatch(setHeight(event.target.value));
   };
 
+  const handleDontResize = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    if (checked) {
+      dispatch(setHeight(''));
+      dispatch(setWidth(''));
+    }
+    dispatch(setDontResize(checked));
+  };
+
   return (
     <Grid container spacing={1}>
       <Grid item xs>
@@ -47,6 +63,7 @@ const ResizeDimensionInput: React.FC<Props> = () => {
           margin="dense"
           variant="outlined"
           size="small"
+          disabled={dontResize}
         />
       </Grid>
       <Grid item xs>
@@ -59,6 +76,21 @@ const ResizeDimensionInput: React.FC<Props> = () => {
           margin="dense"
           variant="outlined"
           size="small"
+          disabled={dontResize}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <FormControlLabel
+          control={
+            // eslint-disable-next-line react/jsx-wrap-multilines
+            <Checkbox
+              checked={dontResize}
+              onChange={handleDontResize}
+              color="primary"
+              size="small"
+            />
+          }
+          label="Don't Resize"
         />
       </Grid>
     </Grid>
