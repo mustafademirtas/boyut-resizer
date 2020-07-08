@@ -5,10 +5,14 @@ import { RootState } from '../store';
 import { IImageInfo } from '../interfaces/IImageInfo';
 import { ISize } from '../interfaces/ISize';
 import checkDigit from '../utils/checkDigit';
+import { androidIconPreset, iosIconPreset } from '../utils/iconPreset';
 
 type SliceState = {
   file: IImageInfo | undefined;
   sizes: ISize[];
+  preset: string;
+  backgroundFillColor: string;
+  allowFillColor: boolean;
 };
 
 const multipleResizeSlice = createSlice({
@@ -16,6 +20,9 @@ const multipleResizeSlice = createSlice({
   initialState: {
     file: undefined,
     sizes: [{ width: '', height: '', id: v4() }],
+    preset: 'custom',
+    backgroundFillColor: '#fff',
+    allowFillColor: false,
   } as SliceState,
   reducers: {
     setFile: (state, action) => {
@@ -45,6 +52,41 @@ const multipleResizeSlice = createSlice({
       dims[i].height = action.payload.value;
       state.sizes = dims;
     },
+    changePreset: (state, action) => {
+      state.preset = action.payload;
+
+      if (action.payload === 'ios') {
+        const mSizes = iosIconPreset();
+        state.sizes = mSizes.map((x) => {
+          const s: ISize = {
+            height: x.height.toString(),
+            width: x.width.toString(),
+            id: v4(),
+            fileName: x.fileName,
+          };
+          return s;
+        });
+      } else if (action.payload === 'android') {
+        const mSizes = androidIconPreset();
+        state.sizes = mSizes.map((x) => {
+          const s: ISize = {
+            height: x.height.toString(),
+            width: x.width.toString(),
+            id: v4(),
+            fileName: x.fileName,
+          };
+          return s;
+        });
+      } else {
+        state.sizes = [{ width: '', height: '', id: v4() }];
+      }
+    },
+    setAllowFillColor: (state, action) => {
+      state.allowFillColor = action.payload;
+    },
+    setBackgroundFillColor: (state, action) => {
+      state.backgroundFillColor = action.payload;
+    },
   },
 });
 
@@ -54,6 +96,9 @@ export const {
   changeSizeWidth,
   changeSizeHeight,
   addSize,
+  changePreset,
+  setAllowFillColor,
+  setBackgroundFillColor,
 } = multipleResizeSlice.actions;
 
 export default multipleResizeSlice.reducer;

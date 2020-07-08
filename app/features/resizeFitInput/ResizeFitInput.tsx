@@ -5,6 +5,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Typography,
 } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
@@ -41,27 +42,27 @@ const ResizeFitInput: React.FC<Props> = () => {
         <FormControlLabel
           value="contain"
           control={<Radio size="small" />}
-          label="Contain"
+          label={<Typography color="textSecondary">Contain</Typography>}
         />
         <FormControlLabel
           value="cover"
           control={<Radio size="small" />}
-          label="Cover"
+          label={<Typography color="textSecondary">Cover</Typography>}
         />
         <FormControlLabel
           value="fill"
           control={<Radio size="small" />}
-          label="Fill"
+          label={<Typography color="textSecondary">Fill</Typography>}
         />
         <FormControlLabel
           value="inside"
           control={<Radio size="small" />}
-          label="Inside"
+          label={<Typography color="textSecondary">Inside</Typography>}
         />
         <FormControlLabel
           value="outside"
           control={<Radio size="small" />}
-          label="Outside"
+          label={<Typography color="textSecondary">Outside</Typography>}
         />
       </RadioGroup>
     </FormControl>

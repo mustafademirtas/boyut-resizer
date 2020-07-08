@@ -9,6 +9,7 @@ import {
   ListItemText,
   Avatar,
   IconButton,
+  Typography,
 } from '@material-ui/core';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -65,7 +66,10 @@ export default function FileList({ data }: Props) {
               <FolderIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={x.name} secondary={formatBytes(x.size)} />
+          <ListItemText
+            primary={<Typography color="textPrimary">{x.name}</Typography>}
+            secondary={formatBytes(x.size)}
+          />
           <ListItemSecondaryAction>
             <IconButton
               edge="end"

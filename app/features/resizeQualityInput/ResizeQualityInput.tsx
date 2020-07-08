@@ -34,6 +34,7 @@ const ResizeQualityInput: React.FC<Props> = () => {
       max={100}
       valueLabelDisplay="auto"
       onChangeCommitted={handleChange}
+      color="secondary"
     />
   );
 };

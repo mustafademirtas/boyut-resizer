@@ -1,6 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Grid, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
+import {
+  Grid,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Typography,
+} from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import {
@@ -64,6 +70,7 @@ const ResizeDimensionInput: React.FC<Props> = () => {
           variant="outlined"
           size="small"
           disabled={dontResize}
+          color="secondary"
         />
       </Grid>
       <Grid item xs>
@@ -77,6 +84,7 @@ const ResizeDimensionInput: React.FC<Props> = () => {
           variant="outlined"
           size="small"
           disabled={dontResize}
+          color="secondary"
         />
       </Grid>
       <Grid item xs={12}>
@@ -86,11 +94,13 @@ const ResizeDimensionInput: React.FC<Props> = () => {
             <Checkbox
               checked={dontResize}
               onChange={handleDontResize}
-              color="primary"
+              color="secondary"
               size="small"
             />
           }
-          label="Don't Resize"
+          label={
+            <Typography color="textSecondary">Don&apos;t Resize</Typography>
+          }
         />
       </Grid>
     </Grid>

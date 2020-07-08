@@ -1,15 +1,26 @@
 /* eslint-disable react/jsx-curly-newline */
 import React from 'react';
-import { Container, Grid, Button, Box } from '@material-ui/core';
+import {
+  Container,
+  Grid,
+  Button,
+  Box,
+  Divider,
+  Typography,
+  Tooltip,
+} from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { ipcRenderer, remote } from 'electron';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import {
   ImageViewer,
   SizeListInput,
   MultiSizeDropContainer,
   DropTeaser,
   LoadingComponent,
+  ResizePresetInput,
+  ResizeFillBackgroundInput,
 } from '../features';
 import {
   selectMultipleResizeSlice,
@@ -46,6 +57,14 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100%',
       paddingTop: 0,
     },
+    settingsRoot: {
+      backgroundColor: theme.palette.background.paper,
+      height: '100%',
+      overflowY: 'scroll',
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
   })
 );
 
@@ -56,14 +75,24 @@ interface Props {}
 
 const MultipleSize: React.FC<Props> = (props) => {
   const classes = useStyles();
+
   const dispatch = useDispatch();
-  const { file, sizes } = useSelector(selectMultipleResizeSlice);
+  const {
+    file,
+    sizes,
+    preset,
+    allowFillColor,
+    backgroundFillColor,
+  } = useSelector(selectMultipleResizeSlice);
 
   const handleFileRead = (
     event: Electron.IpcRendererEvent,
     message: IImageInfo
   ) => {
-    dispatch(setFile(message));
+    if (message) {
+      dispatch(setFile(message));
+    }
+
     dispatch(hide());
   };
 
@@ -122,6 +151,9 @@ const MultipleSize: React.FC<Props> = (props) => {
       file,
       sizes: mSizes,
       destinationPath,
+      preset,
+      allowFillColor,
+      backgroundFillColor,
     };
 
     return message;
@@ -134,17 +166,21 @@ const MultipleSize: React.FC<Props> = (props) => {
           {file ? <ImageViewer source={file} /> : <DropTeaser mode="single" />}
         </MultiSizeDropContainer>
 
-        <Grid item xs={4} sm={4} className="settings-root">
+        <Grid item xs={4} sm={4} className={classes.settingsRoot}>
           <Box
-            paddingTop={4}
+            paddingTop={1}
             paddingRight={1}
             paddingLeft={1}
             paddingBottom={1}
           >
-            <Box marginBottom={3}>
+            <Box marginBottom={2}>
+              <ResizePresetInput />
+            </Box>
+
+            <Box marginBottom={2}>
               <Button
                 variant="contained"
-                color="primary"
+                color="inherit"
                 fullWidth
                 size="small"
                 onClick={async () => {
@@ -158,7 +194,26 @@ const MultipleSize: React.FC<Props> = (props) => {
                 Resize
               </Button>
             </Box>
-            <SizeListInput />
+            <Divider />
+            <Box marginTop={1}>
+              <Typography component="div" gutterBottom>
+                <Box display="flex" flexDirection="row" alignItems="center">
+                  <Box fontSize="1rem" color="text.primary" marginRight={1}>
+                    Background Fill
+                  </Box>
+                  <Tooltip title="Just for png images" arrow>
+                    <HelpOutlineIcon style={{ color: '#fff' }} />
+                  </Tooltip>
+                </Box>
+              </Typography>
+            </Box>
+            <Box marginBottom={1}>
+              <ResizeFillBackgroundInput mode="single" />
+            </Box>
+            <Divider />
+            <Box>
+              <SizeListInput />
+            </Box>
           </Box>
         </Grid>
       </Grid>

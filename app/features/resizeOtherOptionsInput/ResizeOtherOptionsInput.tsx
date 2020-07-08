@@ -1,5 +1,10 @@
 import React from 'react';
-import { Grid, FormControlLabel, Checkbox } from '@material-ui/core';
+import {
+  Grid,
+  FormControlLabel,
+  Checkbox,
+  Typography,
+} from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectResize, setRemoveExifData } from '../../slices/resizeSlice';
@@ -38,11 +43,11 @@ const ResizeOtherOptionsInput: React.FC<IResizeOtherOptionsInputProps> = (
             <Checkbox
               checked={removeExifData}
               onChange={handleRemoveExifData}
-              color="primary"
+              color="secondary"
               size="small"
             />
           }
-          label="Clean Exif Data"
+          label={<Typography color="textSecondary">Clean Exif Data</Typography>}
         />
       </Grid>
     </Grid>

@@ -17,6 +17,7 @@ import sharp from 'sharp';
 import { v4 } from 'uuid';
 import archiver from 'archiver';
 
+import { openStdin } from 'process';
 import MenuBuilder from './menu';
 import { IImageInfo } from './interfaces/IImageInfo';
 import { ISelectedFile } from './interfaces/ISelectedFiles';
@@ -75,6 +76,7 @@ const createWindow = async () => {
     width: 1024,
     height: 728,
     frame: false,
+    titleBarStyle: 'hidden',
     webPreferences:
       (process.env.NODE_ENV === 'development' ||
         process.env.E2E_BUILD === 'true') &&
@@ -158,6 +160,7 @@ app.on('activate', () => {
   if (mainWindow === null) createWindow();
 });
 
+// EVENT: select-file
 ipcMain.on(
   'select-file',
   async (event: Electron.IpcMainEvent, arg: ISelectedFile[]) => {
@@ -171,7 +174,7 @@ ipcMain.on(
       });
 
       if (result.canceled) {
-        return;
+        mainWindow?.webContents.send('file-read', null);
       }
 
       filePaths = result.filePaths;
@@ -189,6 +192,7 @@ ipcMain.on(
   }
 );
 
+// EVENT: select-file-single
 ipcMain.on(
   'select-file-single',
   async (event: Electron.IpcMainEvent, arg: ISelectedFile) => {
@@ -200,7 +204,7 @@ ipcMain.on(
       });
 
       if (canceled) {
-        return;
+        mainWindow?.webContents.send('file-read-single', null);
       }
       // eslint-disable-next-line prefer-destructuring
       filePath = filePaths[0];
@@ -213,6 +217,7 @@ ipcMain.on(
   }
 );
 
+// EVENT: resize-request
 ipcMain.on('resize-request', async (event, arg: IResizeInput) => {
   const destinationFile = `${arg.destinationPath}/${randomZipFileName()}.zip`;
   const output = fs.createWriteStream(destinationFile);
@@ -308,10 +313,10 @@ ipcMain.on('resize-request', async (event, arg: IResizeInput) => {
   mainWindow?.webContents.send('resize-done');
 });
 
+// EVENT: resize-request-multi-size
 ipcMain.on(
   'resize-request-multi-size',
   async (event, arg: IMultipleSizeResizeInput) => {
-    console.log('PAZU', arg);
     const destinationFile = `${arg.destinationPath}/${randomZipFileName()}.zip`;
     const output = fs.createWriteStream(destinationFile);
     const archive = archiver('zip', {
@@ -363,8 +368,17 @@ ipcMain.on(
         opts.height = parseInt(iterator.height, 10);
       }
 
+      if (arg.preset !== 'custom') {
+        opts.fit = 'contain';
+        opts.background = { r: 0, b: 0, g: 0, alpha: 0 };
+      }
+
       // Start Pipe
       const pipe = sharp(arg.file.path);
+
+      if (arg.allowFillColor) {
+        pipe.flatten({ background: arg.backgroundFillColor });
+      }
 
       // Resize
       pipe.resize(opts);
@@ -373,9 +387,16 @@ ipcMain.on(
       // eslint-disable-next-line no-await-in-loop
       const buffer = await pipe.toBuffer();
 
+      let mName = '';
+      if (arg.preset !== 'custom') {
+        if (iterator.fileName) mName = iterator.fileName;
+      } else {
+        mName = `${iterator.width}x${iterator.height}-${arg.file.name}`;
+      }
+
       archive.append(buffer, {
         // name: `${iterator.name}.${iterator.meta.format}`,
-        name: `${iterator.width}x${iterator.height}-${arg.file.name}`,
+        name: mName,
       });
     }
 

@@ -40,14 +40,14 @@ const FileList: React.FC<Props> = ({ mode }) => {
       <Box
         display="flex"
         p={1}
-        bgcolor="background.paper"
+        bgcolor="background.default"
         justifyContent="center"
         alignItems="center"
       >
         <Box
           component="span"
           fontSize="h6.fontSize"
-          color="primary.main"
+          color="text.primary"
           style={{ paddingBottom: 3 }}
         >
           {mode === 'multiple' && 'Drop files here or'}

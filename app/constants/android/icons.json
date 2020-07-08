@@ -1,0 +1,34 @@
+{
+  "images": [
+    {
+      "file": "mipmap-ldpi/icon.png",
+      "density": "ldpi",
+      "dimension": 36
+    },
+    {
+      "file": "mipmap-mdpi/icon.png",
+      "density": "mdpi",
+      "dimension": 48
+    },
+    {
+      "file": "mipmap-hdpi/icon.png",
+      "density": "hdpi",
+      "dimension": 72
+    },
+    {
+      "file": "mipmap-xhdpi/icon.png",
+      "density": "xhdpi",
+      "dimension": 96
+    },
+    {
+      "file": "mipmap-xxhdpi/icon.png",
+      "density": "xxhdpi",
+      "dimension": 144
+    },
+    {
+      "file": "mipmap-xxxhdpi/icon.png",
+      "density": "xxxhdpi",
+      "dimension": 192
+    }
+  ]
+}

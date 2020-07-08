@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -5,6 +6,7 @@ import {
   Checkbox,
   Box,
   ClickAwayListener,
+  Typography,
 } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { BlockPicker } from 'react-color';
@@ -15,6 +17,8 @@ import {
   setAllowFillColor,
 } from '../../slices/resizeSlice';
 
+import * as multipleResizeSlice from '../../slices/multipleResizeSlice';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     textField: {
@@ -24,24 +28,46 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Props {}
+interface Props {
+  mode?: 'single' | 'multiple';
+}
 
-const ResizeFillBackgroundInput: React.FC<Props> = () => {
+// eslint-disable-next-line react/prop-types
+const ResizeFillBackgroundInput: React.FC<Props> = ({ mode }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { backgroundFillColor, allowFillColor } = useSelector(selectResize);
+  let { backgroundFillColor, allowFillColor } = useSelector(selectResize);
+  const multipleSlice = useSelector(
+    multipleResizeSlice.selectMultipleResizeSlice
+  );
+
+  if (mode === 'single') {
+    backgroundFillColor = multipleSlice.backgroundFillColor;
+    allowFillColor = multipleSlice.allowFillColor;
+  }
+
   const [showPicker, setShowPicker] = React.useState(false);
 
   const handleChange = (color: any, event: any) => {
     if (color) {
-      dispatch(setBackgroundFillColor(color.hex));
+      if (mode === 'single') {
+        dispatch(multipleResizeSlice.setBackgroundFillColor(color.hex));
+      } else {
+        dispatch(setBackgroundFillColor(color.hex));
+      }
+
+      setShowPicker(false);
     }
   };
 
   const handleAllowFillColorChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    dispatch(setAllowFillColor(event.target.checked));
+    if (mode === 'single') {
+      dispatch(multipleResizeSlice.setAllowFillColor(event.target.checked));
+    } else {
+      dispatch(setAllowFillColor(event.target.checked));
+    }
   };
 
   return (
@@ -51,13 +77,17 @@ const ResizeFillBackgroundInput: React.FC<Props> = () => {
           control={
             // eslint-disable-next-line react/jsx-wrap-multilines
             <Checkbox
-              checked={allowFillColor}
+              checked={
+                mode === 'multiple'
+                  ? allowFillColor
+                  : multipleSlice.allowFillColor
+              }
               onChange={handleAllowFillColorChange}
-              color="primary"
+              color="secondary"
               size="small"
             />
           }
-          label="Allow Fill"
+          label={<Typography color="textSecondary">Allow Fill</Typography>}
         />
         <Box
           style={{
@@ -79,7 +109,11 @@ const ResizeFillBackgroundInput: React.FC<Props> = () => {
           }}
         >
           <BlockPicker
-            color={backgroundFillColor}
+            color={
+              mode === 'multiple'
+                ? backgroundFillColor
+                : multipleSlice.backgroundFillColor
+            }
             onChangeComplete={handleChange}
           />
         </ClickAwayListener>
@@ -87,5 +121,5 @@ const ResizeFillBackgroundInput: React.FC<Props> = () => {
     </>
   );
 };
-
+ResizeFillBackgroundInput.defaultProps = { mode: 'multiple' };
 export default ResizeFillBackgroundInput;

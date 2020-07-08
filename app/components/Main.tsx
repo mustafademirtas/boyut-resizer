@@ -38,7 +38,7 @@ import { selectResize } from '../slices/resizeSlice';
 
 import { IResizeInput } from '../interfaces/IResizeInput';
 
-import routes from '../constants/routes.json';
+// import routes from '../constants/routes.json';
 
 function isInteger(value: string): boolean {
   const parsed = parseInt(value, 10);
@@ -75,6 +75,14 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100%',
       paddingTop: 0,
     },
+    settingsRoot: {
+      backgroundColor: theme.palette.background.paper,
+      height: '100%',
+      overflowY: 'scroll',
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
   })
 );
 
@@ -93,7 +101,10 @@ const Main: React.FC<Props> = () => {
     event: Electron.IpcRendererEvent,
     message: IImageInfo[]
   ): void => {
-    dispatch(setFileInfos(message));
+    if (message) {
+      dispatch(setFileInfos(message));
+    }
+
     dispatch(hide());
   };
 
@@ -185,9 +196,9 @@ const Main: React.FC<Props> = () => {
           {fileList.length <= 0 && <DropTeaser />}
         </DropContainer>
 
-        <Grid item xs={4} sm={4} className="settings-root">
+        <Grid item xs={4} sm={4} className={classes.settingsRoot}>
           <Typography component="div">
-            <Box fontSize="1rem" m={boxMargin} color="primary.main">
+            <Box fontSize="1rem" m={boxMargin} color="text.primary">
               Resize Dimension
             </Box>
           </Typography>
@@ -195,11 +206,10 @@ const Main: React.FC<Props> = () => {
             <ResizeDimensionInput />
             <Button
               variant="contained"
-              color="primary"
+              color="inherit"
               fullWidth
               size="small"
               onClick={async () => {
-                dispatch(show());
                 const result = await prepareResizeOptions();
                 if (result) ipcRenderer.send('resize-request', result);
               }}
@@ -209,7 +219,7 @@ const Main: React.FC<Props> = () => {
           </Box>
           <Divider />
           <Typography component="div">
-            <Box fontSize="1rem" m={boxMargin} color="primary.main">
+            <Box fontSize="1rem" m={boxMargin} color="text.primary">
               Fit Method
             </Box>
           </Typography>
@@ -218,7 +228,7 @@ const Main: React.FC<Props> = () => {
           </Box>
           <Divider />
           <Typography component="div" gutterBottom>
-            <Box fontSize="1rem" m={boxMargin} color="primary.main">
+            <Box fontSize="1rem" m={boxMargin} color="text.primary">
               Quality
             </Box>
           </Typography>
@@ -233,11 +243,11 @@ const Main: React.FC<Props> = () => {
               alignItems="center"
               m={boxMargin}
             >
-              <Box fontSize="1rem" color="primary.main" marginRight={1}>
+              <Box fontSize="1rem" color="text.primary" marginRight={1}>
                 Background Fill
               </Box>
               <Tooltip title="Just for png images" arrow>
-                <HelpOutlineIcon />
+                <HelpOutlineIcon style={{ color: '#fff' }} />
               </Tooltip>
             </Box>
           </Typography>
@@ -246,7 +256,7 @@ const Main: React.FC<Props> = () => {
           </Box>
           <Divider />
           <Typography component="div" gutterBottom>
-            <Box fontSize="1rem" m={boxMargin} color="primary.main">
+            <Box fontSize="1rem" m={boxMargin} color="text.primary">
               Other Options
             </Box>
           </Typography>
