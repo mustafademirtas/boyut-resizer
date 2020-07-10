@@ -19,9 +19,10 @@ export const iosIconPreset = (): IPresetOutput[] => {
       return {
         width: width * scale,
         height: height * scale,
-        fileName: `icon-${x.size}${scale > 1 ? '@' : ''}${
-          scale > 1 ? x.scale : ''
-        }.png`,
+        fileName: `icon_${width}@${x.scale}.png`,
+        // fileName: `icon-${x.size}${scale > 1 ? '@' : ''}${
+        //   scale > 1 ? x.scale : ''
+        // }.png`,
       };
     }
   );

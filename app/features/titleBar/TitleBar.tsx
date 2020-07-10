@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { remote } from 'electron';
+import { remote, MenuItem } from 'electron';
 import CloseIcon from '@material-ui/icons/Close';
 import MinimizeIcon from '@material-ui/icons/Remove';
 import { IconButton, Typography } from '@material-ui/core';
@@ -20,13 +20,49 @@ interface Props {}
 
 const TitleBar: React.FC<Props> = () => {
   const theme = useTheme();
+  const click = () => {};
   return (
     <div>
       <FramelessTitleBar
         // iconSrc={icon} // app icon
         currentWindow={currentWindow} // electron window instance
         platform={process.platform as 'darwin' | 'linux' | 'win32' | undefined} // win32, darwin, linux
-        menu={[{}]}
+        menu={[
+          {
+            label: 'File',
+            submenu: [
+              {
+                label: 'Frameless Titlebar',
+                accelerator: 'v2.0.0',
+                disabled: true,
+                click,
+              },
+              {
+                label: 'New Window',
+                click,
+              },
+              {
+                label: 'Preferences',
+                click,
+              },
+              {
+                type: 'separator',
+                click,
+              },
+              {
+                label: 'Resizeable',
+                checked: true,
+                type: 'checkbox',
+                click,
+              },
+              {
+                label: 'Quit Application',
+                accelerator: 'Ctrl+Q',
+                click,
+              },
+            ],
+          },
+        ]}
         theme={{
           bar: {
             background: theme.palette.background.default,
