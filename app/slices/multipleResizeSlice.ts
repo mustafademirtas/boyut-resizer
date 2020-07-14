@@ -5,7 +5,11 @@ import { RootState } from '../store';
 import { IImageInfo } from '../interfaces/IImageInfo';
 import { ISize } from '../interfaces/ISize';
 import checkDigit from '../utils/checkDigit';
-import { androidIconPreset, iosIconPreset } from '../utils/iconPreset';
+import {
+  androidIconPreset,
+  iosIconPreset,
+  iosPresetNames,
+} from '../utils/iconPreset';
 
 type SliceState = {
   file: IImageInfo | undefined;
@@ -55,8 +59,10 @@ const multipleResizeSlice = createSlice({
     changePreset: (state, action) => {
       state.preset = action.payload;
 
-      if (action.payload === 'ios') {
-        const mSizes = iosIconPreset();
+      const iosPresets = iosPresetNames();
+
+      if (iosPresets.includes(action.payload)) {
+        const mSizes = iosIconPreset(action.payload);
         state.sizes = mSizes.map((x) => {
           const s: ISize = {
             height: x.height.toString(),

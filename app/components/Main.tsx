@@ -37,6 +37,7 @@ import { show, hide } from '../slices/loadingSlice';
 import { selectResize } from '../slices/resizeSlice';
 
 import { IResizeInput } from '../interfaces/IResizeInput';
+import { iosPresetNames } from '../utils/iconPreset';
 
 // import routes from '../constants/routes.json';
 
@@ -178,6 +179,7 @@ const Main: React.FC<Props> = () => {
   };
 
   React.useEffect(() => {
+    iosPresetNames();
     ipcRenderer.on('file-read', handleFileRead);
     ipcRenderer.on('resize-done', handleResizeDone);
 

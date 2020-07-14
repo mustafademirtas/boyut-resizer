@@ -7,8 +7,21 @@ export interface IPresetOutput {
   fileName: string;
 }
 
-export const iosIconPreset = (): IPresetOutput[] => {
-  const sizes = iosIcons.images;
+export const iosPresetNames = () => {
+  const idioms = iosIcons.images.map((x) => {
+    return x.idiom;
+  });
+  const unique = [...new Set(idioms)];
+  return unique;
+};
+
+export const iosIconPreset = (presetName = ''): IPresetOutput[] => {
+  let sizes = iosIcons.images;
+  if (presetName !== '') {
+    sizes = iosIcons.images.filter((x) => {
+      return x.idiom === presetName;
+    });
+  }
   const prepared = sizes.map(
     (x): IPresetOutput => {
       const size = x.size.split('x');

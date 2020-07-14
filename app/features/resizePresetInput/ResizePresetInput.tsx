@@ -6,6 +6,7 @@ import {
   selectMultipleResizeSlice,
   changePreset,
 } from '../../slices/multipleResizeSlice';
+import { iosPresetNames } from '../../utils/iconPreset';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,6 +25,7 @@ interface Props {}
 const ResizePresetInput: React.FC<Props> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [iosPresets, setIosPresets] = React.useState<string[]>([]);
 
   const { preset } = useSelector(selectMultipleResizeSlice);
   // const [preset, setPreset] = React.useState('custom');
@@ -31,6 +33,12 @@ const ResizePresetInput: React.FC<Props> = (props) => {
     dispatch(changePreset(event.target.value));
     // setPreset(event.target.value as string);
   };
+
+  React.useEffect(() => {
+    const presets = iosPresetNames();
+    setIosPresets(presets);
+  }, []);
+
   return (
     <FormControl className={classes.formControl}>
       <InputLabel color="secondary" id="preset-select-label">
@@ -44,7 +52,12 @@ const ResizePresetInput: React.FC<Props> = (props) => {
         color="secondary"
       >
         <MenuItem value="custom">Custom</MenuItem>
-        <MenuItem value="ios">iOS</MenuItem>
+        {/* <MenuItem value="ios">iOS</MenuItem> */}
+        {iosPresets.map((x, i) => (
+          <MenuItem key={i.toString()} value={x}>
+            {x}
+          </MenuItem>
+        ))}
         <MenuItem value="android">Android</MenuItem>
       </Select>
     </FormControl>
