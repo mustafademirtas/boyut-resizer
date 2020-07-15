@@ -6,7 +6,10 @@ import {
   selectMultipleResizeSlice,
   changePreset,
 } from '../../slices/multipleResizeSlice';
-import { iosPresetNames } from '../../utils/iconPreset';
+import {
+  generateApplePresetIdioms,
+  generateApplePresetLabel,
+} from '../../utils/iconPreset';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,7 +38,7 @@ const ResizePresetInput: React.FC<Props> = (props) => {
   };
 
   React.useEffect(() => {
-    const presets = iosPresetNames();
+    const presets = generateApplePresetIdioms();
     setIosPresets(presets);
   }, []);
 
@@ -55,7 +58,7 @@ const ResizePresetInput: React.FC<Props> = (props) => {
         {/* <MenuItem value="ios">iOS</MenuItem> */}
         {iosPresets.map((x, i) => (
           <MenuItem key={i.toString()} value={x}>
-            {x}
+            {generateApplePresetLabel(x)}
           </MenuItem>
         ))}
         <MenuItem value="android">Android</MenuItem>

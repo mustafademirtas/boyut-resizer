@@ -6,9 +6,9 @@ import { IImageInfo } from '../interfaces/IImageInfo';
 import { ISize } from '../interfaces/ISize';
 import checkDigit from '../utils/checkDigit';
 import {
-  androidIconPreset,
-  iosIconPreset,
-  iosPresetNames,
+  generateAndroidIconPreset,
+  generateAppleIconPreset,
+  generateApplePresetIdioms,
 } from '../utils/iconPreset';
 
 type SliceState = {
@@ -59,10 +59,10 @@ const multipleResizeSlice = createSlice({
     changePreset: (state, action) => {
       state.preset = action.payload;
 
-      const iosPresets = iosPresetNames();
+      const iosPresets = generateApplePresetIdioms();
 
       if (iosPresets.includes(action.payload)) {
-        const mSizes = iosIconPreset(action.payload);
+        const mSizes = generateAppleIconPreset(action.payload);
         state.sizes = mSizes.map((x) => {
           const s: ISize = {
             height: x.height.toString(),
@@ -73,7 +73,7 @@ const multipleResizeSlice = createSlice({
           return s;
         });
       } else if (action.payload === 'android') {
-        const mSizes = androidIconPreset();
+        const mSizes = generateAndroidIconPreset();
         state.sizes = mSizes.map((x) => {
           const s: ISize = {
             height: x.height.toString(),
