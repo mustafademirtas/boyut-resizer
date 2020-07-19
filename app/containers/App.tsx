@@ -6,7 +6,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { show } from '../slices/aboutModalSlice';
 
-import { TitleBar, AboutModal } from '../features';
+import { TitleBar, AboutModal, SubTitleBar } from '../features';
 
 type Props = {
   children: ReactNode;
@@ -57,6 +57,7 @@ export default function App(props: Props) {
     <ThemeProvider theme={darkTheme}>
       {/* <TitleBar /> */}
       <TitleBar />
+      <SubTitleBar />
       {children}
       <AboutModal />
     </ThemeProvider>

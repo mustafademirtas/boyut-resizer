@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       overflowY: 'scroll',
       height: '100%',
       padding: 0,
+      backdropFilter: 'blur(20px)',
     },
     large: {
       width: theme.spacing(7),

@@ -12,6 +12,8 @@ import {
 import FramelessTitleBar from 'frameless-titlebar';
 
 import icon from '../../../resources/icon.png';
+import singleImage from './single_image.png';
+import multipleImage from './multiple_image.png';
 
 const currentWindow = remote.getCurrentWindow();
 
@@ -66,7 +68,10 @@ const TitleBar: React.FC<Props> = () => {
         theme={{
           bar: {
             background: theme.palette.background.default,
-            borderBottom: `1px solid ${theme.palette.divider}`,
+            borderBottom: 'none',
+            // borderBottom: `1px solid ${theme.palette.divider}`,
+            // height: 64,
+            // padding: '0px 0px 0px 70px',
           },
           // any theme overrides specific
           // to your application :)
@@ -78,7 +83,12 @@ const TitleBar: React.FC<Props> = () => {
         // when the titlebar is double clicked
         onDoubleClick={() => currentWindow.maximize()}
       >
-        {/* <Typography>Hello</Typography> */}
+        {/* <IconButton disableRipple disableFocusRipple>
+          <img src={singleImage} alt="" style={{ width: 32, height: 32 }} />
+        </IconButton>
+        <IconButton disableRipple disableFocusRipple>
+          <img src={multipleImage} alt="" style={{ width: 32, height: 32 }} />
+        </IconButton> */}
       </FramelessTitleBar>
     </div>
     // <div className="c-titlebar">

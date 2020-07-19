@@ -1,8 +1,8 @@
 {
   "name": "boyut-resizer",
   "productName": "Boyut Resizer",
-  "version": "1.2.0",
-  "description": "Boyut Resizer based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "version": "1.3.0",
+  "description": "Boyut Resizer based on React, React Router, Webpack, React Hot Loader",
   "main": "./main.prod.js",
   "author": {
     "name": "Mustafa Demirtaş",

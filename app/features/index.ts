@@ -13,3 +13,4 @@ export { default as ResizeFitInput } from './resizeFitInput/ResizeFitInput';
 export { default as ResizeQualityInput } from './resizeQualityInput/ResizeQualityInput';
 export { default as ResizeFillBackgroundInput } from './resizeFillBackgroundInput/ResizeFillBackgroundInput';
 export { default as ResizePresetInput } from './resizePresetInput/ResizePresetInput';
+export { default as SubTitleBar } from './subTitleBar/SubTitleBar';

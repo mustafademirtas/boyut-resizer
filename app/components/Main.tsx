@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.text.secondary,
     },
     container: {
-      height: '100vh',
+      height: 'calc(100vh - 78px)',
       paddingLeft: 0,
       paddingRight: 0,
     },
@@ -76,12 +76,14 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: 0,
     },
     settingsRoot: {
-      backgroundColor: theme.palette.background.paper,
+      // backgroundColor: theme.palette.background.paper,
+      backgroundColor: 'transparent',
       height: '100%',
       overflowY: 'scroll',
       '&::-webkit-scrollbar': {
         display: 'none',
       },
+      backdropFilter: 'blur(20px)',
     },
   })
 );
