@@ -9,6 +9,10 @@ import { selectAppSettings } from '../slices/appSettingsSlice';
 import { show } from '../slices/aboutModalSlice';
 import { TitleBar, AboutModal, SubTitleBar } from '../features';
 
+import bg01 from '../backgrounds/bg.jpg';
+import bg02 from '../backgrounds/bg02.jpg';
+import bg03 from '../backgrounds/bg03.jpg';
+
 type Props = {
   children: ReactNode;
 };
@@ -20,6 +24,13 @@ export default function App(props: Props) {
   const dispatch = useDispatch();
   const appSettings = useSelector(selectAppSettings);
 
+  const imageSelect = () => {
+    if (appSettings.bgImage === 'bg.jpg') return bg01;
+    if (appSettings.bgImage === 'bg02.jpg') return bg02;
+    if (appSettings.bgImage === 'bg03.jpg') return bg03;
+    return bg01;
+  };
+
   const darkTheme = createMuiTheme({
     palette: {
       type: 'dark',
@@ -29,7 +40,7 @@ export default function App(props: Props) {
         '@global': {
           body: {
             backgroundColor: '#303030',
-            backgroundImage: `url(./backgrounds/${appSettings.bgImage})`,
+            backgroundImage: `url(${imageSelect()})`,
           },
         },
       },
