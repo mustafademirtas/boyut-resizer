@@ -9,6 +9,7 @@ import resizeReducer from './slices/resizeSlice';
 import loadingReducer from './slices/loadingSlice';
 import multipleResizeSlice from './slices/multipleResizeSlice';
 import aboutModalSlice from './slices/aboutModalSlice';
+import appSettingsSlice from './slices/appSettingsSlice';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -19,5 +20,6 @@ export default function createRootReducer(history: History) {
     loading: loadingReducer,
     multipleResize: multipleResizeSlice,
     aboutModal: aboutModalSlice,
+    appSettings: appSettingsSlice,
   });
 }

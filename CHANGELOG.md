@@ -1,5 +1,10 @@
 # 1.3.0
 
+- Icon Correction
+- Settings Page Added
+
+# 1.3.0
+
 - New UI
 - Bug Fixes
 - New Presets
