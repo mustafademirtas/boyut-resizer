@@ -1,3 +1,7 @@
+# 1.3.2
+
+- Background Change Fix
+
 # 1.3.1
 
 - Icon Correction
