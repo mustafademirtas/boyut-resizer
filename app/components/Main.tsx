@@ -208,7 +208,7 @@ const Main: React.FC<Props> = () => {
             <ResizeDimensionInput />
             <Button
               variant="contained"
-              color="inherit"
+              color="secondary"
               fullWidth
               size="small"
               onClick={async () => {

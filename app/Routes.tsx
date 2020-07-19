@@ -15,6 +15,10 @@ const LazyMultipleSizePage = React.lazy(() =>
   import(/* webpackChunkName: "HomePage" */ './containers/MultipleSizePage')
 );
 
+const LazyAppSettingsPage = React.lazy(() =>
+  import(/* webpackChunkName: "HomePage" */ './containers/AppSettingsPage')
+);
+
 const HomePage = (props: Record<string, any>) => (
   <React.Suspense fallback={<LoadingComponent mode="auto" />}>
     <LazyHomePage {...props} />
@@ -27,11 +31,18 @@ const MultipleSizePage = (props: Record<string, any>) => (
   </React.Suspense>
 );
 
+const AppSettingsPage = (props: Record<string, any>) => (
+  <React.Suspense fallback={<LoadingComponent mode="auto" />}>
+    <LazyAppSettingsPage {...props} />
+  </React.Suspense>
+);
+
 export default function Routes() {
   return (
     <App>
       <Switch>
         <Route path={routes.MULTIPLESIZE} component={MultipleSizePage} />
+        <Route path={routes.APPSETTINGS} component={AppSettingsPage} />
         <Route path={routes.HOME} component={HomePage} />
       </Switch>
     </App>

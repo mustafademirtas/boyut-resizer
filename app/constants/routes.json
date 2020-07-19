@@ -1,5 +1,6 @@
 {
   "HOME": "/",
   "COUNTER": "/counter",
-  "MULTIPLESIZE": "/multiplesize"
+  "MULTIPLESIZE": "/multiplesize",
+  "APPSETTINGS": "/appsettings"
 }

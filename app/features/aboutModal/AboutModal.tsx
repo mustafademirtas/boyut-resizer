@@ -5,6 +5,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { useSelector, useDispatch } from 'react-redux';
 import { ipcRenderer } from 'electron';
+import { Typography } from '@material-ui/core';
 import { hide, selectAboutModal } from '../../slices/aboutModalSlice';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -63,7 +64,9 @@ const AboutModal: React.FC<IAboutModalProps> = () => {
     >
       <Fade in={visible}>
         <div className={classes.paper}>
-          <h2 id="transition-modal-title">{`Version ${version}`}</h2>
+          <h2 id="transition-modal-title" style={{ color: '#fff' }}>
+            {`Version ${version}`}
+          </h2>
         </div>
       </Fade>
     </Modal>

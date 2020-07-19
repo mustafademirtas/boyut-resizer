@@ -3,8 +3,9 @@ import { Box, IconButton, Typography } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
 import routes from '../../constants/routes.json';
 import icon from '../../../resources/icon.png';
-import singleImage from './single_image.png';
-import multipleImage from './multiple_image.png';
+import singleImageIcon from './single_image.png';
+import multipleImageIcon from './multiple_image.png';
+import settingsIcon from './settings.png';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface Props {}
@@ -41,7 +42,11 @@ const SubTitleBar: React.FC<Props> = () => {
           }}
           onClick={() => history.push(routes.HOME)}
         >
-          <img src={multipleImage} alt="" style={{ width: 32, height: 32 }} />
+          <img
+            src={multipleImageIcon}
+            alt=""
+            style={{ width: 32, height: 32 }}
+          />
         </IconButton>
         <IconButton
           disableRipple
@@ -55,7 +60,21 @@ const SubTitleBar: React.FC<Props> = () => {
           }}
           onClick={() => history.push(routes.MULTIPLESIZE)}
         >
-          <img src={singleImage} alt="" style={{ width: 32, height: 32 }} />
+          <img src={singleImageIcon} alt="" style={{ width: 32, height: 32 }} />
+        </IconButton>
+        <IconButton
+          disableRipple
+          disableFocusRipple
+          disabled={routes.APPSETTINGS === location.pathname}
+          style={{
+            filter:
+              routes.APPSETTINGS === location.pathname
+                ? 'brightness(100%)'
+                : 'brightness(75%)',
+          }}
+          onClick={() => history.push(routes.APPSETTINGS)}
+        >
+          <img src={settingsIcon} alt="" style={{ width: 32, height: 32 }} />
         </IconButton>
       </Box>
     </Box>

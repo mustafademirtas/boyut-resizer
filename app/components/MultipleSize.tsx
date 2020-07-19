@@ -181,7 +181,7 @@ const MultipleSize: React.FC<Props> = (props) => {
             <Box marginBottom={2}>
               <Button
                 variant="contained"
-                color="inherit"
+                color="secondary"
                 fullWidth
                 size="small"
                 onClick={async () => {

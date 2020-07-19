@@ -14,3 +14,4 @@ export { default as ResizeQualityInput } from './resizeQualityInput/ResizeQualit
 export { default as ResizeFillBackgroundInput } from './resizeFillBackgroundInput/ResizeFillBackgroundInput';
 export { default as ResizePresetInput } from './resizePresetInput/ResizePresetInput';
 export { default as SubTitleBar } from './subTitleBar/SubTitleBar';
+export { default as BgImageSelectInput } from './bgImageSelectInput/BgImageSelectInput';

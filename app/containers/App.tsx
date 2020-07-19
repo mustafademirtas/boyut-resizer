@@ -5,11 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { selectappSettings } from '../slices/appSettingsSlice';
+import { selectAppSettings } from '../slices/appSettingsSlice';
 import { show } from '../slices/aboutModalSlice';
 import { TitleBar, AboutModal, SubTitleBar } from '../features';
-// import bg01 from '../backgrounds/bg.jpg';
-// import bg02 from '../backgrounds/bg02.jpg';
 
 type Props = {
   children: ReactNode;
@@ -20,7 +18,7 @@ export default function App(props: Props) {
   // eslint-disable-next-line prefer-const
   let history = useHistory();
   const dispatch = useDispatch();
-  const appSettings = useSelector(selectappSettings);
+  const appSettings = useSelector(selectAppSettings);
 
   const darkTheme = createMuiTheme({
     palette: {
@@ -61,7 +59,6 @@ export default function App(props: Props) {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      {/* <TitleBar /> */}
       <TitleBar />
       <SubTitleBar />
       {children}

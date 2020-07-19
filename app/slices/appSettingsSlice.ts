@@ -6,14 +6,25 @@ type SliceState = {
   bgImage: string;
 };
 
+const setPersistAppSettings = (state: any): any => {
+  localStorage.setItem('AppSettings', JSON.stringify(state));
+};
+
+const getPersistAppSettings = (): SliceState => {
+  const stateStr = localStorage.getItem('AppSettings');
+  if (stateStr) return JSON.parse(stateStr);
+  return {
+    bgImage: 'bg.jpg',
+  };
+};
+
 const appSettingsSlice = createSlice({
   name: 'appSettings',
-  initialState: {
-    bgImage: 'bg02.jpg',
-  } as SliceState,
+  initialState: getPersistAppSettings() as SliceState,
   reducers: {
     setBgImage: (state, action) => {
       state.bgImage = action.payload;
+      setPersistAppSettings(state);
     },
   },
 });
@@ -22,4 +33,4 @@ export const { setBgImage } = appSettingsSlice.actions;
 
 export default appSettingsSlice.reducer;
 
-export const selectappSettings = (state: RootState) => state.appSettings;
+export const selectAppSettings = (state: RootState) => state.appSettings;
