@@ -12,8 +12,6 @@ interface Props {}
 const SubTitleBar: React.FC<Props> = () => {
   const location = useLocation();
   const history = useHistory();
-
-  console.log(location.pathname);
   return (
     <Box display="flex" justifyContent="space-between" bgcolor="transparent">
       <Box
@@ -43,7 +41,7 @@ const SubTitleBar: React.FC<Props> = () => {
           }}
           onClick={() => history.push(routes.HOME)}
         >
-          <img src={singleImage} alt="" style={{ width: 32, height: 32 }} />
+          <img src={multipleImage} alt="" style={{ width: 32, height: 32 }} />
         </IconButton>
         <IconButton
           disableRipple
@@ -57,7 +55,7 @@ const SubTitleBar: React.FC<Props> = () => {
           }}
           onClick={() => history.push(routes.MULTIPLESIZE)}
         >
-          <img src={multipleImage} alt="" style={{ width: 32, height: 32 }} />
+          <img src={singleImage} alt="" style={{ width: 32, height: 32 }} />
         </IconButton>
       </Box>
     </Box>
